@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Comprehensive Encyclopedia of Idaten Jump</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700;800&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-red: #ef4444;
+            --primary-orange: #f97316;
+            --primary-yellow: #eab308;
+            --dark-bg: #0a0a0a;
+            --card-bg: #1a1a1a;
+            --border-color: #333333;
+            --text-light: #e5e5e5;
+            --text-muted: #a3a3a3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1a1a 50%, var(--dark-bg) 100%);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .title-gradient {
+            background: linear-gradient(45deg, var(--primary-red), var(--primary-orange), var(--primary-yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes gradientShift {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(20deg); }
+        }
+
+        .main-title {
+            font-family: 'Orbitron', monospace;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            text-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
+        }
+
+        .section-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            border-bottom: 3px solid var(--primary-red);
+            padding-bottom: 0.75rem;
+            margin-top: 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: -100%;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary-orange), transparent);
+            animation: slideIn 2s ease-in-out infinite;
+        }
+
+        @keyframes slideIn {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: -100%; }
+        }
+
+        .subsection-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .subsection-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary-red), var(--primary-orange));
+            border-radius: 2px;
+        }
+
+        .content-box {
+            background: linear-gradient(135deg, var(--card-bg) 0%, #252525 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .content-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-red), var(--primary-orange), var(--primary-yellow));
+            opacity: 0.8;
+        }
+
+        .content-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(239, 68, 68, 0.1);
+        }
+
+        .character-card, .bike-card {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            align-items: center;
+            background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .character-card:hover, .bike-card:hover {
+            border-color: var(--primary-red);
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+        }
+
+        @media (min-width: 768px) {
+            .character-card, .bike-card {
+                flex-direction: row;
+            }
+            .character-card img, .bike-card img {
+                max-width: 300px;
+                border-radius: 0.75rem;
+            }
+        }
+
+        .character-card img, .bike-card img {
+            border-radius: 0.75rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .character-card img:hover, .bike-card img:hover {
+            transform: scale(1.05);
+        }
+
+        .stat-table {
+            width: 100%;
+            margin-top: 2rem;
+            border-collapse: collapse;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-table th, .stat-table td {
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .stat-table th {
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-orange));
+            color: white;
+            font-weight: 700;
+            font-family: 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-table td {
+            background-color: var(--card-bg);
+        }
+
+        .stat-table tr:hover td {
+            background-color: #2a2a2a;
+        }
+
+        .relationship-chart {
+            background: linear-gradient(135deg, var(--card-bg) 0%, #252525 100%);
+            padding: 2.5rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .relationship-node {
+            background: linear-gradient(135deg, #3a3a3a, #2a2a2a);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            color: var(--text-light);
+            text-align: center;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .relationship-node:hover {
+            border-color: var(--primary-red);
+            transform: scale(1.05);
+        }
+
+        .relationship-line {
+            width: 3px;
+            height: 40px;
+            border-radius: 1.5px;
+        }
+
+        .alliance { 
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.4);
+        }
+        .family { 
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            box-shadow: 0 0 15px rgba(22, 163, 74, 0.4);
+        }
+        .rivalry { 
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            box-shadow: 0 0 15px rgba(220, 38, 38, 0.4);
+        }
+        .possession { 
+            border: 3px dashed #a855f7; 
+            padding: calc(0.75rem - 3px) calc(1.5rem - 3px);
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .course-card {
+            background: linear-gradient(135deg, var(--card-bg) 0%, #252525 100%);
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(239, 68, 68, 0.2);
+        }
+
+        .course-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .course-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .course-card-content {
+            padding: 1.5rem;
+        }
+
+        .course-card h4 {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--primary-orange);
+        }
+
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary-red);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.6; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(239, 68, 68, 0.8); }
+        }
+
+        @keyframes slideInLeft {
+            0% { transform: translateX(-100px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            0% { transform: translateX(100px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            0%, 50% { border-color: transparent; }
+            51%, 100% { border-color: var(--primary-red); }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--primary-yellow);
+            border-radius: 50%;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        .bounce-in {
+            animation: bounceIn 0.6s ease-out;
+        }
+
+        .glow-effect {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .typewriter-text {
+            overflow: hidden;
+            border-right: 3px solid var(--primary-red);
+            white-space: nowrap;
+            animation: typewriter 3s steps(40, end), blink 0.75s step-end infinite;
+        }
+
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(239, 68, 68, 0.2);
+        }
+
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .text-shadow-glow {
+            text-shadow: 0 0 10px rgba(239, 68, 68, 0.5), 0 0 20px rgba(239, 68, 68, 0.3), 0 0 30px rgba(239, 68, 68, 0.1);
+        }
+
+        .gradient-border {
+            position: relative;
+            background: linear-gradient(135deg, var(--card-bg) 0%, #252525 100%);
+            border-radius: 1rem;
+        }
+
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            padding: 2px;
+            background: linear-gradient(45deg, var(--primary-red), var(--primary-orange), var(--primary-yellow), var(--primary-red));
+            border-radius: inherit;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            animation: gradientRotate 3s linear infinite;
+        }
+
+        @keyframes gradientRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .floating-icon {
+            position: absolute;
+            animation: floatIcon 4s ease-in-out infinite;
+        }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(5deg); }
+            50% { transform: translateY(-5px) rotate(-5deg); }
+            75% { transform: translateY(-15px) rotate(3deg); }
+        }
+
+        .pulse-ring {
+            position: absolute;
+            border: 2px solid var(--primary-red);
+            border-radius: 50%;
+            animation: pulseRing 2s ease-out infinite;
+        }
+
+        @keyframes pulseRing {
+            0% {
+                transform: scale(0.8);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2.5);
+                opacity: 0;
+            }
+        }
+
+        .morphing-shape {
+            background: linear-gradient(45deg, var(--primary-red), var(--primary-orange));
+            border-radius: 50%;
+            animation: morphShape 4s ease-in-out infinite;
+        }
+
+        @keyframes morphShape {
+            0%, 100% { border-radius: 50%; transform: rotate(0deg); }
+            25% { border-radius: 25% 75% 75% 25%; transform: rotate(90deg); }
+            50% { border-radius: 75% 25% 25% 75%; transform: rotate(180deg); }
+            75% { border-radius: 25% 75% 25% 75%; transform: rotate(270deg); }
+        }
+
+        .chart-container {
+            background: linear-gradient(135deg, var(--card-bg) 0%, #252525 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .chart-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--primary-orange);
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-red), var(--primary-orange), var(--primary-yellow));
+            transform-origin: left;
+            transform: scaleX(0);
+            z-index: 1000;
+            transition: transform 0.1s ease;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
+            100% { box-shadow: 0 0 40px rgba(239, 68, 68, 0.6); }
+        }
+
+        .map-container {
+            position: relative;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .map-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23333" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(239, 68, 68, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-red);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Particles Background -->
+    <div class="floating-particles" id="particles"></div>
+    
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+
+    <!-- Header -->
+    <header class="relative text-white text-center py-24 px-4 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-red-900/20 via-orange-900/20 to-yellow-900/20"></div>
+        <img src="header_background.jpg" alt="Idaten Jump Battle" class="absolute top-0 left-0 w-full h-full object-cover object-center opacity-30 z-0">
+        <div class="relative z-10 fade-in">
+            <h1 class="text-4xl md:text-6xl lg:text-7xl main-title mb-4">The Comprehensive Encyclopedia of</h1>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl main-title title-gradient pulse-glow">Idaten Jump</h1>
+            <p class="text-xl md:text-2xl mt-6 text-gray-300 font-light">Explore the Ultimate MTB Adventure</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4 md:p-8 max-w-7xl">
+
+        <!-- Part I: The Worlds of Idaten Jump -->
+        <section id="worlds" class="fade-in">
+            <h2 class="text-4xl lg:text-5xl section-title title-gradient">Part I: The Worlds of Idaten Jump</h2>
+            
+            <!-- Character Statistics Chart -->
+            <div class="chart-container fade-in">
+                <h3 class="chart-title">Character Power Levels Comparison</h3>
+                <canvas id="powerChart" width="400" height="200"></canvas>
+            </div>
+
+            <div class="content-box fade-in hover-lift gradient-border">
+                <h3 class="subsection-title text-2xl lg:text-3xl">Section 1.1: The Duality of the X-Zone: Earth and a Parallel World</h3>
+                <div class="md:flex gap-8 items-start">
+                    <img src="location_images/x_zone_earth_1.png" alt="X-Zone on Earth" class="w-full md:w-1/3 rounded-lg mb-4 md:mb-0 shadow-lg">
+                    <div class="text-lg leading-relaxed">
+                        <p class="mb-4">The universe of <em>Idaten Jump</em> is built upon a dual-world cosmology, centered on two distinct yet interconnected realms, both known as the "X-Zone." The first X-Zone is a tangible, physical location on Earth: a mountain biking (MTB) practice course meticulously constructed by Takeshi Yamato for his son, Sho.</p>
+                        
+                        <p class="mb-4">This place is more than just dirt and ramps; it is a sanctuary of memory for Sho, imbued with the happy moments he spent with his father before his mysterious disappearance. It is this deep sentimental value that fuels the initial conflict of the series, a race against the rival Team Shark Tooth for ownership of this sacred ground.</p>
+                        
+                        <p class="mb-4">The second X-Zone is a parallel isekai world, a vibrant and dangerous dimension where the majority of the series unfolds. The transition between these worlds is facilitated by a mysterious phenomenon: a swirling black smoke that appears during moments of intense MTB competition.</p>
+                        
+                        <p>A fundamental law governing these two worlds is time dilation. Time within the parallel X-Zone flows at a much faster rate than on Earth. This temporal discrepancy adds a layer of consequence and tragedy to the separation between the worlds.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-box fade-in hover-lift gradient-border">
+                <h3 class="subsection-title text-2xl lg:text-3xl">Section 1.2: A Cartographer's Guide to the X-Zone</h3>
+                <p class="text-lg mb-6">The world of the X-Zone is a vast and varied landscape, designed to test the limits of any MTB rider. The journey of Sho Yamato and his friends takes them across a continent of extreme environments, all leading toward a central metropolis that holds the key to their return.</p>
+                
+                <div class="grid md:grid-cols-2 gap-8 mt-6">
+                    <div class="fade-in">
+                        <img src="location_images/x_city_2.png" alt="X-City" class="w-full rounded-lg mb-4 shadow-lg">
+                        <h4 class="text-xl font-bold mb-2 text-orange-400">X-City</h4>
+                        <p>The political and geographical heart of the X-Zone, X-City is the primary objective for Sho's team during the first half of the series. Originally governed by a legitimate mayor, the city is overthrown by Gabu Samejima and his Team Shark Tooth, who establish a brutal dictatorship one year prior to Sho's arrival. Dominating the city's skyline is the X-Tower, a colossal structure that serves as the focal point for the Idaten Battle Tournament and is said to hold the power to send the Earth-born riders home.</p>
+                    </div>
+                    <div class="fade-in">
+                        <img src="location_images/imperial_island_1.png" alt="Imperial Island" class="w-full rounded-lg mb-4 shadow-lg">
+                        <h4 class="text-xl font-bold mb-2 text-orange-400">Imperial Island</h4>
+                        <p>The primary setting for the second half of the series, Imperial Island is the heavily fortified base of operations for the sinister Team X. It is often referred to as a "phantom" or "illusion" island, suggesting it may exist in a separate dimensional space or is cloaked by powerful magic, making it difficult to locate. It is here that the final, world-saving confrontation with the ancient evil possessing Takeshi Yamato takes place.</p>
+                    </div>
+                </div>
+
+                <!-- Battle Courses Distribution Chart -->
+                <div class="chart-container fade-in">
+                    <h3 class="chart-title">Battle Courses by Difficulty Level</h3>
+                    <canvas id="coursesChart" width="400" height="200"></canvas>
+                </div>
+
+                <h4 class="text-2xl font-bold mt-8 mb-6 text-white">Diverse Battle Courses:</h4>
+                <div class="course-grid">
+                    <div class="course-card fade-in hover-lift">
+                        <img src="course_images/desert_course_1.webp" alt="Desert Course">
+                        <div class="course-card-content">
+                            <h4>The Desert</h4>
+                            <p>An early challenge featuring vast sand dunes and punishing heat, testing riders' endurance and their bikes' durability.</p>
+                        </div>
+                    </div>
+                    <div class="course-card fade-in hover-lift">
+                        <img src="course_images/volcano_course_1.jpg" alt="Volcano Course">
+                        <div class="course-card-content">
+                            <h4>The Volcano</h4>
+                            <p>A treacherous course set on the slopes of an active volcano, where riders must navigate rivers of lava and falling ash.</p>
+                        </div>
+                    </div>
+                    <div class="course-card fade-in hover-lift">
+                        <img src="course_images/ghost_town_1.jpg" alt="Ghost Town">
+                        <div class="course-card-content">
+                            <h4>The Ghost Town & MTB Cemetery</h4>
+                            <p>A desolate and eerie landscape filled with decaying buildings and the "graves" of broken mountain bikes.</p>
+                        </div>
+                    </div>
+                    <div class="course-card fade-in hover-lift">
+                        <img src="course_images/snow_mountains_1.jpg" alt="Snow Mountains">
+                        <div class="course-card-content">
+                            <h4>The Snow-Covered Mountains</h4>
+                            <p>A frigid region of ice and snow, home to the rider Gen and his daughter Rin. The slippery conditions demand exceptional balance and control.</p>
+                        </div>
+                    </div>
+                    <div class="course-card fade-in hover-lift">
+                        <img src="course_images/ancient_ruins_1.jpg" alt="Ancient Ruins">
+                        <div class="course-card-content">
+                            <h4>Ancient Ruins</h4>
+                            <p>A course that winds through the crumbling remains of an ancient civilization, featuring narrow pathways and complex architectural obstacles.</p>
+                        </div>
+                    </div>
+                    <div class="course-card fade-in hover-lift">
+                        <img src="course_images/gold_celebresort_city_1.jpg" alt="Gold Celebresort City">
+                        <div class="course-card-content">
+                            <h4>Gold Celebresort City</h4>
+                            <p>A luxurious but corrupt resort city run by Team ST members Yoko and Rika, built by exploiting the local populace.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="text-2xl font-bold mt-8 mb-4 text-white">Visual Aid: Conceptual Map of the X-Zone</h4>
+                <div class="map-container fade-in">
+                    <div class="relative z-10">
+                        <img src="x_zone_map.jpg" alt="Conceptual Map of the X-Zone" class="w-full max-w-4xl mx-auto rounded-lg shadow-lg">
+                        <p class="text-center italic mt-4 text-gray-400">Interactive map showing the journey of Team Idaten through the X-Zone</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Part II: The Riders and Their Allies -->
+        <section id="characters" class="fade-in">
+            <h2 class="text-4xl lg:text-5xl section-title title-gradient">Part II: The Riders and Their Allies</h2>
+            
+            <!-- Team Composition Chart -->
+            <div class="chart-container fade-in">
+                <h3 class="chart-title">Team Idaten Member Roles</h3>
+                <canvas id="teamChart" width="400" height="200"></canvas>
+            </div>
+
+            <!-- Episode Progression Chart -->
+            <div class="chart-container fade-in">
+                <h3 class="chart-title">Series Progression Analysis</h3>
+                <canvas id="progressChart" width="400" height="200"></canvas>
+            </div>
+
+            <div class="content-box fade-in hover-lift gradient-border">
+                <h3 class="subsection-title text-2xl lg:text-3xl">Section 2.1: The Core Team (Team Idaten)</h3>
+                
+                <div class="character-card mb-8 fade-in hover-lift bounce-in">
+                    <img src="character_images/sho_yamato_1.jpg" alt="Sho Yamato" class="rounded-lg shadow-lg">
+                    <div>
+                        <h4 class="text-2xl font-bold text-white mb-3">Sho Yamato (山登 翔)</h4>
+                        <p class="text-lg leading-relaxed">The series protagonist, Sho is a fifth-grade student with an infectious and all-consuming passion for mountain biking. Initially, his motivation is simple and relatable: win the Idaten Battles to collect ten gold emblems and return home. However, his journey forces him to mature rapidly. He is defined by his incredible natural talent for performing amazing tricks, his unwavering optimism, and a deep, emotional connection to his father, Takeshi.</p>
+                        <p class="text-lg leading-relaxed mt-4">Sho's character arc is one of escalating responsibility. He evolves from a boy trying to save himself to a hero liberating X-City from Gabu's tyranny, and finally to a savior battling a cosmic evil to protect two worlds. His ultimate test is confronting his own possessed father, a battle he wins not through pure power, but through the strength of his spirit and the bonds he has forged.</p>
+                    </div>
+                </div>
+
+                <div class="character-card mb-8 fade-in hover-lift bounce-in">
+                    <img src="character_images/makoto_shido_1.jpg" alt="Makoto Shido" class="rounded-lg shadow-lg">
+                    <div>
+                        <h4 class="text-2xl font-bold text-white mb-3">Makoto Shido (獅堂 まこと)</h4>
+                        <p class="text-lg leading-relaxed">Sho's childhood friend and a highly competitive female MTB rider in her own right. Makoto is portrayed as kind, fiercely determined, and deeply loyal, though she can be prone to moodiness and moments of self-doubt. Her most significant development occurs with the revelation that her bike, Neptune, is one of the legendary Idaten Bikes.</p>
+                        <p class="text-lg leading-relaxed mt-4">This discovery elevates her from a supportive friend to a front-line combatant with unique abilities, particularly on water-based courses. Her relationship with her older brother, the trial bike champion Kyoichi, is a central element of her character, serving as both a source of inspiration and occasional conflict.</p>
+                    </div>
+                </div>
+
+                <div class="character-card mb-8 fade-in hover-lift bounce-in">
+                    <img src="character_images/kakeru_sakamaki_1.jpg" alt="Kakeru Sakamaki" class="rounded-lg shadow-lg">
+                    <div>
+                        <h4 class="text-2xl font-bold text-white mb-3">Kakeru Sakamaki (坂巻 駆)</h4>
+                        <p class="text-lg leading-relaxed">The third member of the core trio and the team's brilliant mechanic. While not a racer, Kakeru's role is absolutely indispensable. He is responsible for the maintenance, repair, and strategic modification of the team's bikes, often working under immense pressure to prepare them for the unique challenges of each Idaten Battle course.</p>
+                        <p class="text-lg leading-relaxed mt-4">Kakeru represents the crucial theme that victory is a team effort, where the support crew is just as vital as the rider on the track. His intelligence and technical expertise frequently provide the winning edge in critical moments.</p>
+                    </div>
+                </div>
+
+                <div class="character-card fade-in">
+                    <img src="location_images/x_zone_earth_2.png" alt="Hosuke" class="rounded-lg shadow-lg">
+                    <div>
+                        <h4 class="text-2xl font-bold text-white mb-3">Hosuke (ホスケ)</h4>
+                        <p class="text-lg leading-relaxed">The wise and enigmatic guardian of the X-Zone, Hosuke serves as both mentor and guide to Team Idaten throughout their journey. His deep knowledge of the X-Zone's history and the legendary Idaten Bikes makes him an invaluable ally. Despite his advanced age and seemingly frail appearance, Hosuke possesses incredible wisdom and hidden powers that prove crucial in the final battles.</p>
+                        <p class="text-lg leading-relaxed mt-4">His relationship with Takeshi Yamato spans decades, and his role as a bridge between the past and present adds emotional depth to the series' overarching narrative about legacy, responsibility, and the bonds that transcend time and space.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bike Statistics Section -->
+        <section id="bikes" class="fade-in">
+            <h2 class="text-4xl lg:text-5xl section-title title-gradient">Part III: The Legendary Idaten Bikes</h2>
+            
+            <!-- Bike Performance Chart -->
+            <div class="chart-container fade-in">
+                <h3 class="chart-title">Idaten Bike Performance Comparison</h3>
+                <canvas id="bikeChart" width="400" height="200"></canvas>
+            </div>
+
+            <div class="content-box fade-in hover-lift gradient-border">
+                <h3 class="subsection-title text-2xl lg:text-3xl">The Sacred Machines of Power</h3>
+                <p class="text-lg mb-6">The Idaten Bikes are not merely vehicles but sacred artifacts imbued with mystical powers. Each bike possesses unique abilities that complement their riders' skills and personalities, forming an unbreakable bond between human and machine.</p>
+
+                <div class="bike-card mb-8 fade-in hover-lift slide-in-left">
+                    <img src="character_images/sho_yamato_2.jpg" alt="Flame Kaiser" class="rounded-lg shadow-lg">
+                    <div>
+                        <h4 class="text-2xl font-bold text-white mb-3">Flame Kaiser</h4>
+                        <p class="text-lg leading-relaxed">Sho Yamato's legendary bike, the Flame Kaiser is a crimson machine of incredible power and speed. Its flame-based abilities allow it to cut through the toughest terrain and perform impossible aerial maneuvers. The bike's fiery aura reflects Sho's passionate spirit and determination to overcome any obstacle.</p>
+                        <div class="mt-4">
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                                <div class="bg-red-900/30 p-3 rounded-lg">
+                                    <div class="text-2xl font-bold text-red-400">95</div>
+                                    <div class="text-sm text-gray-400">Speed</div>
+                                </div>
+                                <div class="bg-orange-900/30 p-3 rounded-lg">
+                                    <div class="text-2xl font-bold text-orange-400">90</div>
+                                    <div class="text-sm text-gray-400">Power</div>
+                                </div>
+                                <div class="bg-yellow-900/30 p-3 rounded-lg">
+                                    <div class="text-2xl font-bold text-yellow-400">85</div>
+                                    <div class="text-sm text-gray-400">Agility</div>
+                                </div>
+                                <div class="bg-red-900/30 p-3 rounded-lg">
+                                    <div class="text-2xl font-bold text-red-400">100</div>
+                                    <div class="text-sm text-gray-400">Special</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bike-card mb-8 fade-in hover-lift slide-in-left">
+                    <img src="character_images/neptune_bike.jpg" alt="Neptune" class="rounded-lg shadow-lg">
+                    <div>
+                        <h4 class="text-2xl font-bold text-white mb-3">Neptune</h4>
+                        <p class="text-lg leading-relaxed">Makoto Shido's aquatic-themed Idaten Bike, Neptune excels in water-based environments and courses. Its blue coloration and wave-like design patterns reflect its mastery over aquatic terrain. The bike can literally ride on water surfaces and generate powerful water-based attacks during battles.</p>
+                        <div class="mt-4">
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                                <div class="bg-blue-900/30 p-3 rounded-lg">
+                                    <div class="text-2xl font-bold text-blue-400">80</div>
+                                    <div class="text-sm text-gray-400">Speed</div>
+                                </div>
+                                <div class="bg-cyan-900/30 p-3 rounded-lg">
+                                    <div class="text-2xl font-bold text-cyan-400">75</div>
+                                    <div class="text-sm text-gray-400">Power</div>
+                                </div>
+                                <div class="bg-blue-900/30 p-3 rounded-lg">
+                                    <div class="text-2xl font-bold text-blue-400">95</div>
+                                    <div class="text-sm text-gray-400">Agility</div>
+                                </div>
+                                <div class="bg-cyan-900/30 p-3 rounded-lg">
+                                    <div class="text-2xl font-bold text-cyan-400">90</div>
+                                    <div class="text-sm text-gray-400">Special</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bike-card fade-in">
+                    <img src="location_images/imperial_island_2.jpg" alt="Imperial X" class="rounded-lg shadow-lg">
+                    <div>
+                        <h4 class="text-2xl font-bold text-white mb-3">Imperial X</h4>
+                        <p class="text-lg leading-relaxed">The most powerful and mysterious of all Idaten Bikes, Imperial X serves as the cornerstone of the X-Zone's stability. This golden machine possesses reality-altering abilities and is said to be the source of all other Idaten Bikes' power. Its corruption by dark forces serves as the central conflict of the series' latter half.</p>
+                        <div class="mt-4">
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                                <div class="bg-yellow-900/30 p-3 rounded-lg">
+                                    <div class="text-2xl font-bold text-yellow-400">100</div>
+                                    <div class="text-sm text-gray-400">Speed</div>
+                                </div>
+                                <div class="bg-orange-900/30 p-3 rounded-lg">
+                                    <div class="text-2xl font-bold text-orange-400">100</div>
+                                    <div class="text-sm text-gray-400">Power</div>
+                                </div>
+                                <div class="bg-yellow-900/30 p-3 rounded-lg">
+                                    <div class="text-2xl font-bold text-yellow-400">100</div>
+                                    <div class="text-sm text-gray-400">Agility</div>
+                                </div>
+                                <div class="bg-red-900/30 p-3 rounded-lg">
+                                    <div class="text-2xl font-bold text-red-400">∞</div>
+                                    <div class="text-sm text-gray-400">Special</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Relationship Chart -->
+        <section id="relationships" class="fade-in">
+            <h2 class="text-4xl lg:text-5xl section-title title-gradient">Character Relationships</h2>
+            <div class="relationship-chart fade-in">
+                <div class="relationship-node family">Takeshi Yamato (Father)</div>
+                <div class="relationship-line family"></div>
+                <div class="relationship-node">Sho Yamato</div>
+                <div class="relationship-line alliance"></div>
+                <div class="relationship-node alliance">Makoto Shido</div>
+                <div class="relationship-line alliance"></div>
+                <div class="relationship-node alliance">Kakeru Sakamaki</div>
+                <div class="relationship-line rivalry"></div>
+                <div class="relationship-node rivalry">Gabu Samejima</div>
+                <div class="relationship-line possession"></div>
+                <div class="relationship-node possession">Team Shark Tooth</div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Floating particles animation
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Create sparkle effects
+        function createSparkles() {
+            const sparkleCount = 20;
+            const body = document.body;
+
+            for (let i = 0; i < sparkleCount; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 2 + 's';
+                sparkle.style.position = 'fixed';
+                sparkle.style.pointerEvents = 'none';
+                sparkle.style.zIndex = '1';
+                body.appendChild(sparkle);
+            }
+        }
+
+        // Enhanced scroll animations with staggered effects
+        function handleScrollAnimations() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach((element, index) => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    setTimeout(() => {
+                        element.classList.add('visible');
+                        
+                        // Add random animation classes for variety
+                        const animations = ['slide-in-left', 'slide-in-right', 'bounce-in'];
+                        if (!element.classList.contains('slide-in-left') && 
+                            !element.classList.contains('slide-in-right') && 
+                            !element.classList.contains('bounce-in')) {
+                            const randomAnimation = animations[Math.floor(Math.random() * animations.length)];
+                            element.classList.add(randomAnimation);
+                        }
+                    }, index * 100); // Stagger the animations
+                }
+            });
+        }
+
+        // Add interactive hover effects
+        function addInteractiveEffects() {
+            const cards = document.querySelectorAll('.character-card, .bike-card, .course-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                    this.style.boxShadow = '0 25px 50px rgba(239, 68, 68, 0.3)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                    this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.3)';
+                });
+            });
+        }
+
+        // Parallax effect for header
+        function handleParallax() {
+            const header = document.querySelector('header');
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            
+            if (header) {
+                header.style.transform = `translateY(${rate}px)`;
+            }
+        }
+
+        // Scroll progress indicator
+        function updateScrollIndicator() {
+            const scrollIndicator = document.getElementById('scrollIndicator');
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.body.offsetHeight;
+            const winHeight = window.innerHeight;
+            const scrollPercent = scrollTop / (docHeight - winHeight);
+            scrollIndicator.style.transform = `scaleX(${scrollPercent})`;
+        }
+
+        // Fade in animation on scroll
+        function handleScrollAnimations() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        // Chart.js configurations
+        function createCharts() {
+            // Power Chart - Character abilities throughout the series
+            const powerCtx = document.getElementById('powerChart').getContext('2d');
+            new Chart(powerCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Speed', 'Power', 'Technique', 'Endurance', 'Spirit', 'Experience'],
+                    datasets: [{
+                        label: 'Sho Yamato',
+                        data: [95, 85, 90, 80, 100, 70],
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                        pointBackgroundColor: '#ef4444'
+                    }, {
+                        label: 'Makoto Shido',
+                        data: [80, 75, 95, 85, 90, 75],
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        pointBackgroundColor: '#3b82f6'
+                    }, {
+                        label: 'Gabu Samejima',
+                        data: [90, 95, 85, 90, 60, 95],
+                        borderColor: '#dc2626',
+                        backgroundColor: 'rgba(220, 38, 38, 0.2)',
+                        pointBackgroundColor: '#dc2626'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#e5e5e5'
+                            }
+                        }
+                    },
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: '#333333'
+                            },
+                            grid: {
+                                color: '#333333'
+                            },
+                            pointLabels: {
+                                color: '#e5e5e5'
+                            },
+                            ticks: {
+                                color: '#a3a3a3',
+                                backdropColor: 'transparent'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Courses Chart - Battle difficulty distribution
+            const coursesCtx = document.getElementById('coursesChart').getContext('2d');
+            new Chart(coursesCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Beginner Courses', 'Intermediate Courses', 'Advanced Courses', 'Expert Courses', 'Legendary Courses'],
+                    datasets: [{
+                        data: [3, 8, 12, 6, 2],
+                        backgroundColor: [
+                            '#10b981',
+                            '#3b82f6',
+                            '#f59e0b',
+                            '#ef4444',
+                            '#8b5cf6'
+                        ],
+                        borderColor: '#1a1a1a',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#e5e5e5'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Team Chart - Member contribution analysis
+            const teamCtx = document.getElementById('teamChart').getContext('2d');
+            new Chart(teamCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Sho Yamato', 'Makoto Shido', 'Kakeru Sakamaki', 'Hosuke'],
+                    datasets: [{
+                        label: 'Racing Victories',
+                        data: [18, 12, 2, 8],
+                        backgroundColor: '#ef4444'
+                    }, {
+                        label: 'Technical Contributions',
+                        data: [8, 10, 25, 20],
+                        backgroundColor: '#f97316'
+                    }, {
+                        label: 'Leadership Moments',
+                        data: [22, 15, 8, 18],
+                        backgroundColor: '#eab308'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#e5e5e5'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#e5e5e5'
+                            },
+                            grid: {
+                                color: '#333333'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: '#e5e5e5'
+                            },
+                            grid: {
+                                color: '#333333'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Bike Chart - Performance comparison across episodes
+            const bikeCtx = document.getElementById('bikeChart').getContext('2d');
+            new Chart(bikeCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Episode 1-10', 'Episode 11-20', 'Episode 21-30', 'Episode 31-40', 'Episode 41-52'],
+                    datasets: [{
+                        label: 'Flame Kaiser Performance',
+                        data: [65, 75, 85, 92, 98],
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        tension: 0.4
+                    }, {
+                        label: 'Neptune Performance',
+                        data: [60, 70, 80, 88, 95],
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        tension: 0.4
+                    }, {
+                        label: 'Imperial X Power Level',
+                        data: [100, 100, 95, 85, 100],
+                        borderColor: '#eab308',
+                        backgroundColor: 'rgba(234, 179, 8, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#e5e5e5'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#e5e5e5'
+                            },
+                            grid: {
+                                color: '#333333'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: '#e5e5e5'
+                            },
+                            grid: {
+                                color: '#333333'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Episode Progression Chart
+            const progressCtx = document.getElementById('progressChart').getContext('2d');
+            new Chart(progressCtx, {
+                type: 'area',
+                data: {
+                    labels: ['Episodes 1-13', 'Episodes 14-26', 'Episodes 27-39', 'Episodes 40-52'],
+                    datasets: [{
+                        label: 'Story Arc Intensity',
+                        data: [70, 85, 95, 100],
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.3)',
+                        fill: true,
+                        tension: 0.4
+                    }, {
+                        label: 'Character Development',
+                        data: [60, 75, 90, 95],
+                        borderColor: '#f97316',
+                        backgroundColor: 'rgba(249, 115, 22, 0.3)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#e5e5e5'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#e5e5e5'
+                            },
+                            grid: {
+                                color: '#333333'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: '#e5e5e5'
+                            },
+                            grid: {
+                                color: '#333333'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Draw interactive map
+        function drawMap() {
+            const canvas = document.getElementById('mapCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size
+            canvas.width = 800;
+            canvas.height = 400;
+            
+            // Background
+            const gradient = ctx.createLinearGradient(0, 0, 800, 400);
+            gradient.addColorStop(0, '#1a1a1a');
+            gradient.addColorStop(0.5, '#2a2a2a');
+            gradient.addColorStop(1, '#1a1a1a');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 800, 400);
+            
+            // Draw path
+            ctx.strokeStyle = '#ef4444';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(50, 350);
+            ctx.lineTo(150, 300);
+            ctx.lineTo(250, 250);
+            ctx.lineTo(350, 200);
+            ctx.lineTo(450, 150);
+            ctx.lineTo(550, 100);
+            ctx.lineTo(650, 80);
+            ctx.lineTo(750, 60);
+            ctx.stroke();
+            
+            // Draw locations
+            const locations = [
+                {x: 50, y: 350, name: 'Start', color: '#10b981'},
+                {x: 150, y: 300, name: 'Desert', color: '#f59e0b'},
+                {x: 250, y: 250, name: 'Volcano', color: '#ef4444'},
+                {x: 350, y: 200, name: 'Ghost Town', color: '#6b7280'},
+                {x: 450, y: 150, name: 'Snow Mountains', color: '#3b82f6'},
+                {x: 550, y: 100, name: 'Ancient Ruins', color: '#8b5cf6'},
+                {x: 650, y: 80, name: 'X-City', color: '#eab308'},
+                {x: 750, y: 60, name: 'Imperial Island', color: '#dc2626'}
+            ];
+            
+            locations.forEach(location => {
+                // Draw location circle
+                ctx.fillStyle = location.color;
+                ctx.beginPath();
+                ctx.arc(location.x, location.y, 8, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                // Draw location name
+                ctx.fillStyle = '#e5e5e5';
+                ctx.font = '12px Rajdhani';
+                ctx.textAlign = 'center';
+                ctx.fillText(location.name, location.x, location.y - 15);
+            });
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            createSparkles();
+            createCharts();
+            addInteractiveEffects();
+            handleScrollAnimations();
+            
+            // Add typewriter effect to main title
+            setTimeout(() => {
+                const mainTitle = document.querySelector('.main-title');
+                if (mainTitle) {
+                    mainTitle.classList.add('typewriter-text');
+                }
+            }, 1000);
+        });
+
+        // Event listeners
+        window.addEventListener('scroll', function() {
+            updateScrollIndicator();
+            handleScrollAnimations();
+            handleParallax();
+        });
+
+        // Loading animation for images
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('load', function() {
+                this.style.opacity = '1';
+            });
+            
+            img.addEventListener('error', function() {
+                this.style.display = 'none';
+                console.log('Failed to load image:', this.src);
+            });
+        });
+    </script>
+</body>
+</html>
+
